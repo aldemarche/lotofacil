@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Fechamento Estatístico Lotofácil</title>
+
+<!-- Tipografia -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ==================== CABEÇALHO ==================== -->
+  <header class="app-header">
+    <div class="header-inner">
+      <div class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 40 40" class="brand-icon">
+          <circle cx="20" cy="20" r="18" />
+          <text x="20" y="26">15</text>
+        </svg>
+      </div>
+      <div class="header-text">
+        <h1>Fechamento Estatístico Lotofácil</h1>
+        <p class="subtitle">Modelo estatístico baseado em Frequência + Cadeia de Markov</p>
+      </div>
+    </div>
+  </header>
+
+  <main class="app-main">
+
+    <!-- ==================== UPLOAD ==================== -->
+    <section class="panel upload-panel" id="uploadPanel">
+      <div class="panel-heading">
+        <span class="eyebrow">Passo 1</span>
+        <h2>Carregar histórico</h2>
+      </div>
+
+      <label class="upload-dropzone" id="dropzone" for="fileInput">
+        <input type="file" id="fileInput" accept=".xlsx,.xls" hidden />
+        <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+          <path d="M12 16V4M12 4l-4 4M12 4l4 4" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="upload-label">Selecionar Planilha Excel</span>
+        <span class="upload-hint">.xlsx com o histórico completo de concursos</span>
+      </label>
+
+      <div id="statusMessage" class="status-message" role="status"></div>
+    </section>
+
+    <!-- ==================== CONTEÚDO GERADO ==================== -->
+    <div id="resultsWrapper" class="results-wrapper hidden">
+
+      <!-- RESUMO -->
+      <section class="panel summary-panel">
+        <div class="panel-heading">
+          <span class="eyebrow">Passo 2</span>
+          <h2>Resumo do histórico</h2>
+        </div>
+
+        <div class="summary-grid">
+          <div class="summary-card">
+            <span class="summary-value" id="totalContests">—</span>
+            <span class="summary-label">Concursos analisados</span>
+          </div>
+          <div class="summary-card">
+            <span class="summary-value" id="lastContestNumber">—</span>
+            <span class="summary-label">Último concurso</span>
+          </div>
+        </div>
+
+        <div class="ball-board" aria-label="Mapa das dezenas 1 a 25">
+          <div class="ball-board-legend">
+            <span><i class="dot dot-drawn"></i> Sorteada no último concurso</span>
+            <span><i class="dot dot-absent"></i> Ausente no último concurso</span>
+          </div>
+          <div class="ball-grid" id="ballGrid"></div>
+        </div>
+      </section>
+
+      <!-- TABELAS -->
+      <section class="panel tables-panel">
+        <div class="panel-heading">
+          <span class="eyebrow">Passo 3</span>
+          <h2>Ranking estatístico</h2>
+        </div>
+
+        <div class="tables-grid">
+          <div class="table-card">
+            <h3>Dezenas sorteadas <small>(último concurso)</small></h3>
+            <div class="table-scroll">
+              <table id="drawnTable">
+                <thead>
+                  <tr>
+                    <th>Dezena</th>
+                    <th>Freq. Histórica</th>
+                    <th>Freq. Últ. 100</th>
+                    <th>Prob. Repetição</th>
+                    <th>Score</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="table-card">
+            <h3>Dezenas ausentes <small>(último concurso)</small></h3>
+            <div class="table-scroll">
+              <table id="absentTable">
+                <thead>
+                  <tr>
+                    <th>Dezena</th>
+                    <th>Freq. Histórica</th>
+                    <th>Freq. Últ. 100</th>
+                    <th>Prob. Entrada</th>
+                    <th>Score</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- GRUPOS -->
+      <section class="panel groups-panel">
+        <div class="panel-heading">
+          <span class="eyebrow">Passo 4</span>
+          <h2>Grupos gerados</h2>
+        </div>
+
+        <div class="groups-grid" id="groupsGrid"></div>
+      </section>
+
+      <!-- JOGOS -->
+      <section class="panel games-panel">
+        <div class="panel-heading">
+          <span class="eyebrow">Passo 5</span>
+          <h2>Jogos do fechamento</h2>
+        </div>
+
+        <div class="games-grid" id="gamesGrid"></div>
+      </section>
+
+      <!-- EXPLICAÇÃO -->
+      <section class="panel explanation-panel">
+        <div class="panel-heading">
+          <span class="eyebrow">Metodologia</span>
+          <h2>Como este fechamento foi calculado</h2>
+        </div>
+        <p id="explanationText" class="explanation-text"></p>
+      </section>
+
+    </div>
+  </main>
+
+  <footer class="app-footer">
+    <p>Ferramenta estatística e educacional. Não há garantia de acerto — jogue com responsabilidade.</p>
+  </footer>
+
+  <!--
+    Biblioteca de leitura de planilhas Excel (SheetJS).
+    Para uso 100% offline: baixe o arquivo em
+    https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js
+    salve-o como "xlsx.full.min.js" nesta mesma pasta e troque o src abaixo
+    para "xlsx.full.min.js". Por padrão, carregamos via CDN.
+  -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

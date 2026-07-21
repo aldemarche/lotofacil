@@ -1,0 +1,492 @@
+/* =====================================================================
+   FECHAMENTO ESTATÍSTICO LOTOFÁCIL — FOLHA DE ESTILOS
+   Tema escuro, tipografia Sora (display) + JetBrains Mono (dados numéricos)
+   ===================================================================== */
+
+:root {
+  /* Paleta: roxo profundo (identidade Lotofácil) + violeta elétrico de destaque
+     e âmbar para marcar as dezenas "fixas" escolhidas pelo modelo. */
+  --bg-deep:        #100b1c;
+  --bg-panel:       #17112a;
+  --bg-panel-2:     #1e1836;
+  --bg-raised:      #251d40;
+  --line:           #352a54;
+  --line-soft:      #2a2145;
+
+  --violet:         #8b5cf6;
+  --violet-soft:    #6d47c9;
+  --violet-glow:    rgba(139, 92, 246, 0.35);
+  --amber:          #f5b942;
+  --amber-glow:     rgba(245, 185, 66, 0.35);
+  --teal:           #3fd1b0;
+  --rose:           #ef6a8b;
+
+  --text-primary:   #f1edfb;
+  --text-secondary: #b6adcf;
+  --text-faint:     #7c7398;
+
+  --font-display: 'Sora', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  --radius-lg: 20px;
+  --radius-md: 14px;
+  --radius-sm: 8px;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg-deep);
+  color: var(--text-primary);
+  font-family: var(--font-display);
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  background-image:
+    radial-gradient(circle at 15% 0%, rgba(139, 92, 246, 0.14), transparent 45%),
+    radial-gradient(circle at 85% 15%, rgba(245, 185, 66, 0.08), transparent 40%);
+  min-height: 100vh;
+}
+
+h1, h2, h3 { font-family: var(--font-display); margin: 0; }
+
+::selection { background: var(--violet-glow); }
+
+/* ---------------------------------------------------------------------
+   CABEÇALHO
+   --------------------------------------------------------------------- */
+.app-header {
+  padding: 2.5rem 1.5rem 2rem;
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.header-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.brand-mark { flex-shrink: 0; }
+
+.brand-icon {
+  width: 52px;
+  height: 52px;
+}
+.brand-icon circle {
+  fill: url(#none);
+  fill: var(--bg-raised);
+  stroke: var(--amber);
+  stroke-width: 1.5;
+}
+.brand-icon text {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 700;
+  fill: var(--amber);
+  text-anchor: middle;
+}
+
+.header-text h1 {
+  font-size: clamp(1.4rem, 2.6vw, 2rem);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  background: linear-gradient(90deg, #ffffff, var(--violet) 120%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.subtitle {
+  margin: 0.35rem 0 0;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+
+/* ---------------------------------------------------------------------
+   LAYOUT GERAL
+   --------------------------------------------------------------------- */
+.app-main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+.panel {
+  background: linear-gradient(180deg, var(--bg-panel), var(--bg-panel-2));
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius-lg);
+  padding: 1.75rem;
+  animation: fadeIn 0.5s ease both;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.panel-heading { margin-bottom: 1.25rem; }
+
+.eyebrow {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--amber);
+  margin-bottom: 0.35rem;
+}
+
+.panel-heading h2 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.hidden { display: none !important; }
+
+/* ---------------------------------------------------------------------
+   UPLOAD
+   --------------------------------------------------------------------- */
+.upload-dropzone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  text-align: center;
+  padding: 2.5rem 1.5rem;
+  border: 1.5px dashed var(--line);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.upload-dropzone:hover,
+.upload-dropzone.dragover {
+  border-color: var(--violet);
+  background: rgba(139, 92, 246, 0.06);
+}
+
+.upload-icon {
+  width: 34px;
+  height: 34px;
+  color: var(--violet);
+}
+
+.upload-label {
+  font-weight: 700;
+  font-size: 1.02rem;
+}
+
+.upload-hint {
+  color: var(--text-faint);
+  font-size: 0.85rem;
+}
+
+.status-message {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  font-family: var(--font-mono);
+}
+
+.status-message.error { color: var(--rose); }
+.status-message.success { color: var(--teal); }
+.status-message.loading { color: var(--text-secondary); }
+
+/* ---------------------------------------------------------------------
+   RESUMO / MAPA DE DEZENAS
+   --------------------------------------------------------------------- */
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.75rem;
+}
+
+.summary-card {
+  background: var(--bg-raised);
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius-md);
+  padding: 1.1rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.summary-value {
+  font-family: var(--font-mono);
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--violet);
+}
+
+.summary-label {
+  color: var(--text-secondary);
+  font-size: 0.82rem;
+}
+
+.ball-board-legend {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.9rem;
+}
+
+.dot {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  margin-right: 0.4rem;
+}
+.dot-drawn { background: var(--violet); }
+.dot-absent { background: var(--line); border: 1px solid var(--text-faint); }
+
+.ball-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(44px, 1fr));
+  gap: 0.55rem;
+}
+
+.ball {
+  aspect-ratio: 1;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 0.9rem;
+  background: var(--bg-raised);
+  border: 1px solid var(--line);
+  color: var(--text-faint);
+  transition: transform 0.2s ease;
+}
+
+.ball:hover { transform: scale(1.08); }
+
+.ball.drawn {
+  background: radial-gradient(circle at 30% 25%, #a97bff, var(--violet-soft));
+  border-color: var(--violet);
+  color: #fff;
+  box-shadow: 0 0 0 3px var(--violet-glow);
+}
+
+.ball.absent {
+  color: var(--text-secondary);
+  border-color: var(--line);
+}
+
+/* ---------------------------------------------------------------------
+   TABELAS
+   --------------------------------------------------------------------- */
+.tables-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.25rem;
+}
+
+.table-card h3 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  color: var(--text-primary);
+}
+
+.table-card h3 small {
+  color: var(--text-faint);
+  font-weight: 400;
+  font-size: 0.78rem;
+}
+
+.table-scroll {
+  overflow-x: auto;
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius-md);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+}
+
+thead th {
+  text-align: left;
+  padding: 0.7rem 0.8rem;
+  background: var(--bg-raised);
+  color: var(--text-faint);
+  font-weight: 500;
+  text-transform: uppercase;
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  border-bottom: 1px solid var(--line-soft);
+}
+
+tbody td {
+  padding: 0.6rem 0.8rem;
+  border-bottom: 1px solid var(--line-soft);
+  color: var(--text-secondary);
+}
+
+tbody tr:last-child td { border-bottom: none; }
+
+tbody tr.is-fixed {
+  background: rgba(245, 185, 66, 0.08);
+}
+
+tbody tr.is-fixed td:first-child {
+  color: var(--amber);
+  font-weight: 700;
+}
+
+.score-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.score-bar {
+  height: 5px;
+  border-radius: 3px;
+  background: var(--violet);
+  flex: 0 0 auto;
+}
+
+/* ---------------------------------------------------------------------
+   GRUPOS
+   --------------------------------------------------------------------- */
+.groups-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.group-card {
+  background: var(--bg-raised);
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius-md);
+  padding: 1rem 1.1rem;
+}
+
+.group-card h4 {
+  margin: 0 0 0.65rem;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-faint);
+}
+
+.group-numbers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.chip {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 0.85rem;
+  padding: 0.3rem 0.55rem;
+  border-radius: 8px;
+  background: var(--bg-panel);
+  border: 1px solid var(--line);
+  color: var(--text-primary);
+}
+
+.group-card.tone-fixed .chip { border-color: var(--amber); color: var(--amber); }
+.group-card.tone-a .chip { border-color: var(--violet); color: var(--violet); }
+.group-card.tone-b .chip { border-color: var(--teal); color: var(--teal); }
+.group-card.tone-fixed-abs .chip { border-color: var(--amber); color: var(--amber); }
+.group-card.tone-r .chip { border-color: var(--rose); color: var(--rose); }
+.group-card.tone-s .chip { border-color: #6ea8ff; color: #6ea8ff; }
+
+/* ---------------------------------------------------------------------
+   JOGOS
+   --------------------------------------------------------------------- */
+.games-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.1rem;
+}
+
+.game-card {
+  background: var(--bg-raised);
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.game-card::before {
+  content: '';
+  position: absolute;
+  top: -40%;
+  right: -30%;
+  width: 140px;
+  height: 140px;
+  background: radial-gradient(circle, var(--violet-glow), transparent 70%);
+  pointer-events: none;
+}
+
+.game-card h4 {
+  margin: 0 0 0.9rem;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--amber);
+}
+
+.game-numbers {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.4rem;
+}
+
+.game-numbers .ball {
+  font-size: 0.82rem;
+  background: var(--bg-panel);
+  border-color: var(--line);
+  color: var(--text-primary);
+}
+
+/* ---------------------------------------------------------------------
+   EXPLICAÇÃO
+   --------------------------------------------------------------------- */
+.explanation-text {
+  color: var(--text-secondary);
+  line-height: 1.7;
+  font-size: 0.94rem;
+  margin: 0;
+}
+
+/* ---------------------------------------------------------------------
+   RODAPÉ
+   --------------------------------------------------------------------- */
+.app-footer {
+  text-align: center;
+  padding: 1.5rem;
+  color: var(--text-faint);
+  font-size: 0.8rem;
+  border-top: 1px solid var(--line-soft);
+}
+
+/* ---------------------------------------------------------------------
+   RESPONSIVIDADE
+   --------------------------------------------------------------------- */
+@media (max-width: 560px) {
+  .ball-grid { grid-template-columns: repeat(auto-fill, minmax(36px, 1fr)); }
+  .panel { padding: 1.25rem; }
+  .header-inner { gap: 0.85rem; }
+}
